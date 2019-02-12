@@ -1,21 +1,23 @@
 package com.example.hani.mylistview;
 
 /**
- * Created by Hani on 13-Oct-17.
+ * Created by Hani on 05-Feb-19.
  */
 
-public class Produits {
+public class Films {
     private String Name;
-    private int Amount;
+    private String Gender;
+    private int Date;
     private int Img;
     private int Id;
     boolean Selected = false;
 
     //constracter
 
-    public Produits(String name, int amount, int img, int id, boolean selected) {
+    public Films(String name, int date, String gender, int img, int id, boolean selected) {
         Name = name;
-        Amount = amount;
+        Gender = gender;
+        Date = date;
         Img = img;
         Id = id;
         Selected=selected;
@@ -32,12 +34,12 @@ public class Produits {
         Name = name;
     }
 
-    public int getAmount() {
-        return Amount;
+    public int getDate() {
+        return Date;
     }
 
-    public void setAmount(int amount) {
-        Amount = amount;
+    public void setDate(int Date) {
+        Date = Date;
     }
 
     public int getImg() {
@@ -62,5 +64,13 @@ public class Produits {
 
     public void setSelected(boolean selected) {
         this.Selected = selected;
+    }
+
+    public String getGender() {
+        return Gender;
+    }
+
+    public void setGender(String gender) {
+        Gender = gender;
     }
 }

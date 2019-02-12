@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,10 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private ListView IvProduct;
-    private producteListeAdapter adapter;
-    private List<Produits> mProduitsListe;
-    private int[] icons = {R.drawable.icon1, R.drawable.icon2, R.drawable.icon3, R.drawable.icon4
-            , R.drawable.icon5};
+    private FilmsListAdapter adapter;
+    private List<Films> mFilmsListe;
     private int getSelectedIndex;
 
     public MainActivity() {
@@ -34,16 +31,11 @@ public class MainActivity extends AppCompatActivity {
 
         //Start(Create a list + list View)
         IvProduct = (ListView) findViewById(R.id.sampleListView);
-        mProduitsListe = new ArrayList<>();
+        mFilmsListe = new ArrayList<>();
 
         //Init Adapter
-        adapter = new producteListeAdapter(getApplicationContext(), mProduitsListe);
+        adapter = new FilmsListAdapter(getApplicationContext(), mFilmsListe);
         IvProduct.setAdapter(adapter);
-        mProduitsListe.add(new Produits("Drink",0,icons[0],0,false));
-        mProduitsListe.add(new Produits("Fish",0,icons[1],1,false));
-        mProduitsListe.add(new Produits("Salad",0,icons[2],2,false));
-        mProduitsListe.add(new Produits("Bread",0,icons[3],3,false));
-        mProduitsListe.add(new Produits("Meet",0,icons[4],4,false));
 
         //Handel OnItemClick
         IvProduct.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -57,12 +49,12 @@ public class MainActivity extends AppCompatActivity {
                 CheckBox cb = (CheckBox) view.findViewById(R.id.chk);
                 cb.setChecked(!cb.isChecked());
                 if(cb.isChecked()){
-                    mProduitsListe.get(position).setSelected(true);
+                    mFilmsListe.get(position).setSelected(true);
                     IvProduct.getChildAt(position).setBackgroundColor(Color.GRAY);
                 }
                 else
                 {
-                    mProduitsListe.get(position).setSelected(false);
+                    mFilmsListe.get(position).setSelected(false);
                     IvProduct.getChildAt(position).setBackgroundColor(Color.TRANSPARENT);
                 }
             }
@@ -91,28 +83,11 @@ public class MainActivity extends AppCompatActivity {
                      if(!et1.getText().toString().isEmpty() && !et2.getText().toString().isEmpty()
                             && !sp.getSelectedItem().toString().equalsIgnoreCase("choose a category"))
                      {
-                        final String a = et1.getText().toString();
-                        final int b = Integer.parseInt(et2.getText().toString());
-                        String text = sp.getSelectedItem().toString();
-                        int m = 0;
-                        switch (text) {
-                            case "Drink":
-                                m = icons[0];
-                                break;
-                            case "Fish":
-                                m = icons[1];
-                                break;
-                            case "Vegetables":
-                                m = icons[2];
-                                break;
-                            case "Bread":
-                                m = icons[3];
-                                break;
-                            case "Meat":
-                                m = icons[4];
-                                break;
-                        }
-                        mProduitsListe.add(new Produits(a, b, m, i[0],false));
+                        final String name = et1.getText().toString();
+                        final int year = Integer.parseInt(et2.getText().toString());
+                        String gender = sp.getSelectedItem().toString();
+
+                        mFilmsListe.add(new Films(name, year, gender, R.drawable.defaulticon, i[0],false));
                         adapter.notifyDataSetChanged();
                         i[0]++;
                         Toast.makeText(MainActivity.this, "Add element", Toast.LENGTH_LONG).show();
@@ -139,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         cb.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                mProduitsListe.clear();
+                mFilmsListe.clear();
                 adapter.notifyDataSetChanged();
                 Toast.makeText(MainActivity.this, "Clear the list", Toast.LENGTH_LONG).show();
             }
@@ -149,16 +124,16 @@ public class MainActivity extends AppCompatActivity {
         db.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                if(mProduitsListe.isEmpty()){
+                if(mFilmsListe.isEmpty()){
                     Toast.makeText(getApplicationContext(),
                             "No items to delete.",
                             Toast.LENGTH_LONG).show();
                 }
                 int itemCount = IvProduct.getCount();
                 for(int i=itemCount - 1 ; i>=0; i--){
-                    Produits aux = (Produits) adapter.getItem(i);
+                    Films aux = (Films) adapter.getItem(i);
                     if(aux.isSelected()){
-                        mProduitsListe.remove(aux);
+                        mFilmsListe.remove(aux);
                     }
                 }
                 adapter.notifyDataSetChanged();

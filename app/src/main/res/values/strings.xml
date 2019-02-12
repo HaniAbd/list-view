@@ -5,11 +5,11 @@
     <string name="add">Add</string>
     <string-array name="category">
         <item>choose a category </item>
-        <item>Drink</item>
-        <item>Fish</item>
-        <item>Vegetables</item>
-        <item>Bread</item>
-        <item>Meat</item>
+        <item>Drame</item>
+        <item>Comédie</item>
+        <item>Thriller</item>
+        <item>action</item>
+        <item>horreur</item>
     </string-array>
 
 </resources>
