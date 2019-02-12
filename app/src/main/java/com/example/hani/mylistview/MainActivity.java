@@ -1,5 +1,7 @@
 package com.example.hani.mylistview;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -15,11 +17,16 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
 public class MainActivity extends AppCompatActivity {
     private ListView IvProduct;
     private FilmsListAdapter adapter;
     private List<Films> mFilmsListe;
     private int getSelectedIndex;
+    private static final BlockingQueue<Runnable> sPoolWorkQueue =
+            new LinkedBlockingQueue<Runnable>(128);
 
     public MainActivity() {
     }
@@ -36,6 +43,17 @@ public class MainActivity extends AppCompatActivity {
         //Init Adapter
         adapter = new FilmsListAdapter(getApplicationContext(), mFilmsListe);
         IvProduct.setAdapter(adapter);
+        Bitmap icon = BitmapFactory.decodeResource(getBaseContext().getResources(),
+                R.drawable.defaulticon);
+        final SerialBitmap serialIcon = new SerialBitmap(icon);
+        final List<Films> films = new ArrayList<>();
+        final int[] id = new int[0];
+
+        for (int i = 0; i<20; i++) {
+            Films f = new Films("M2", 2019, "MIAGE", serialIcon , i,false);
+            films.add(f);
+            adapter.notifyDataSetChanged();
+        }
 
         //Handel OnItemClick
         IvProduct.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -72,7 +90,9 @@ public class MainActivity extends AppCompatActivity {
                 final EditText et1 = (EditText) mview.findViewById(R.id.editText1);
                 final EditText et2 = (EditText) mview.findViewById(R.id.editText2);
                 final Spinner sp = (Spinner) mview.findViewById(R.id.spinner);
-
+                Bitmap icon = BitmapFactory.decodeResource(getBaseContext().getResources(),
+                        R.drawable.defaulticon);
+                final SerialBitmap serialIcon = new SerialBitmap(icon);
                 ArrayAdapter<CharSequence> adp = ArrayAdapter.createFromResource(MainActivity.this, R.array.category, android.R.layout.simple_spinner_item);
                 adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 sp.setAdapter(adp);
@@ -87,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                         final int year = Integer.parseInt(et2.getText().toString());
                         String gender = sp.getSelectedItem().toString();
 
-                        mFilmsListe.add(new Films(name, year, gender, R.drawable.defaulticon, i[0],false));
+                        mFilmsListe.add(new Films(name, year, gender, serialIcon, i[0],false));
                         adapter.notifyDataSetChanged();
                         i[0]++;
                         Toast.makeText(MainActivity.this, "Add element", Toast.LENGTH_LONG).show();

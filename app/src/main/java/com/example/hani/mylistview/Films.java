@@ -5,57 +5,57 @@ package com.example.hani.mylistview;
  */
 
 public class Films {
-    private String Name;
-    private String Gender;
-    private int Date;
-    private int Img;
-    private int Id;
+    private String name;
+    private String gender;
+    private int year;
+    private SerialBitmap image = null;
+    private int id;
     boolean Selected = false;
 
     //constracter
 
-    public Films(String name, int date, String gender, int img, int id, boolean selected) {
-        Name = name;
-        Gender = gender;
-        Date = date;
-        Img = img;
-        Id = id;
-        Selected=selected;
+    public Films(String name, int year, String gender, SerialBitmap image, int id, boolean selected) {
+        this.name = name;
+        this.gender = gender;
+        this.year = year;
+        this.image = image;
+        this.id = id;
+        this.Selected=selected;
     }
 
 
     //Getter & Setter
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        name = name;
     }
 
-    public int getDate() {
-        return Date;
+    public int getYear() {
+        return year;
     }
 
-    public void setDate(int Date) {
-        Date = Date;
+    public void setYear(int year) {
+        year = year;
     }
 
-    public int getImg() {
-        return Img;
+    public SerialBitmap getImage() {
+        return image;
     }
 
-    public void setImg(int img) {
-        Img = img;
+    public void setImage(int image) {
+        image = image;
     }
 
     public int getId() {
-        return Id;
+        return id;
     }
 
     public void setId(int id) {
-        Id = id;
+        id = id;
     }
 
     public boolean isSelected() {
@@ -67,10 +67,10 @@ public class Films {
     }
 
     public String getGender() {
-        return Gender;
+        return gender;
     }
 
     public void setGender(String gender) {
-        Gender = gender;
+        gender = gender;
     }
 }

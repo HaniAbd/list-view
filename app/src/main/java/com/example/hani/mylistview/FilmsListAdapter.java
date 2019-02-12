@@ -51,17 +51,17 @@ public class FilmsListAdapter extends BaseAdapter {
 
         CheckBox checkBox=(CheckBox)v.findViewById(R.id.chk);
         tvName.setText(mFilmsListe.get(position).getName());
-        tvYear.setText(String.valueOf(mFilmsListe.get(position).getDate()));
+        tvYear.setText(String.valueOf(mFilmsListe.get(position).getYear()));
         tvGender.setText(mFilmsListe.get(position).getGender());
-        image.setImageResource(mFilmsListe.get(position).getImg());
+        // image.setImageResource(mFilmsListe.get(position).getImage());
         v.setTag(mFilmsListe.get(position).getId());
 
-        /*if(!(mFilmsListe.get(position).getImage().bitmap==null)) {
+        if(!(mFilmsListe.get(position).getImage().bitmap==null)) {
             image.setImageBitmap(mFilmsListe.get(position).getImage().bitmap);
         }
         else{
-            image.setImageResource(R.drawable.ic_launcher_background);
-        }*/
+            image.setImageResource(R.drawable.defaulticon);
+        }
 
         checkBox.setOnClickListener(new View.OnClickListener() {
 
