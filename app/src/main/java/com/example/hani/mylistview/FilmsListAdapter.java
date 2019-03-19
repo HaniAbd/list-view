@@ -56,8 +56,8 @@ public class FilmsListAdapter extends BaseAdapter {
         // image.setImageResource(mFilmsListe.get(position).getImage());
         v.setTag(mFilmsListe.get(position).getId());
 
-        if(!(mFilmsListe.get(position).getImage().bitmap==null)) {
-            image.setImageBitmap(mFilmsListe.get(position).getImage().bitmap);
+        if(!(mFilmsListe.get(position).getImage()==null)) {
+            image.setImageBitmap(mFilmsListe.get(position).getImage());
         }
         else{
             image.setImageResource(R.drawable.defaulticon);
@@ -80,5 +80,11 @@ public class FilmsListAdapter extends BaseAdapter {
         });
 
         return v;
+    }
+    private class MovieViewHolder{
+        public TextView name;
+        public TextView year;
+        public TextView gender;
+        public ImageView image;
     }
 }

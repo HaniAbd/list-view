@@ -1,5 +1,7 @@
 package com.example.hani.mylistview;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by Hani on 05-Feb-19.
  */
@@ -8,13 +10,13 @@ public class Films {
     private String name;
     private String gender;
     private int year;
-    private SerialBitmap image = null;
+    private Bitmap image;
     private int id;
     boolean Selected = false;
 
     //constracter
 
-    public Films(String name, int year, String gender, SerialBitmap image, int id, boolean selected) {
+    public Films(String name, int year, String gender, Bitmap image, int id, boolean selected) {
         this.name = name;
         this.gender = gender;
         this.year = year;
@@ -22,6 +24,7 @@ public class Films {
         this.id = id;
         this.Selected=selected;
     }
+    // lourem pexil pour limages
 
 
     //Getter & Setter
@@ -42,12 +45,12 @@ public class Films {
         year = year;
     }
 
-    public SerialBitmap getImage() {
+    public Bitmap getImage() {
         return image;
     }
 
-    public void setImage(int image) {
-        image = image;
+    public void setImage(Bitmap image) {
+        this.image = image;
     }
 
     public int getId() {

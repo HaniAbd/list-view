@@ -25,10 +25,11 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class MainActivity extends AppCompatActivity {
-    private ListView IvProduct;
+    private ListView mListView;
     private FilmsListAdapter adapter;
     private List<Films> mFilmsListe;
     private int getSelectedIndex;
+    String url = "https://lorempixel.com/200/200/";
     private static final BlockingQueue<Runnable> sPoolWorkQueue =
             new LinkedBlockingQueue<Runnable>(128);
 
@@ -45,26 +46,26 @@ public class MainActivity extends AppCompatActivity {
                 1);
 
         //Start(Create a list + list View)
-        IvProduct = (ListView) findViewById(R.id.sampleListView);
+        mListView = (ListView) findViewById(R.id.sampleListView);
         mFilmsListe = new ArrayList<>();
 
         //Init Adapter
         adapter = new FilmsListAdapter(getApplicationContext(), mFilmsListe);
-        IvProduct.setAdapter(adapter);
+        mListView.setAdapter(adapter);
         Bitmap icon = BitmapFactory.decodeResource(getBaseContext().getResources(),
                 R.drawable.defaulticon);
         final SerialBitmap serialIcon = new SerialBitmap(icon);
         final List<Films> films = new ArrayList<>();
         final int[] id = new int[0];
 
-        for (int i = 0; i<20; i++) {
-            Films f = new Films("M2", 2019, "MIAGE", serialIcon , i,false);
-            films.add(f);
-            adapter.notifyDataSetChanged();
-        }
+        mFilmsListe = genererMovies();
+
+        adapter = new FilmsListAdapter(MainActivity.this, mFilmsListe);
+        mListView.setAdapter(adapter);
+
 
         //Handel OnItemClick
-        IvProduct.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -76,12 +77,12 @@ public class MainActivity extends AppCompatActivity {
                 cb.setChecked(!cb.isChecked());
                 if(cb.isChecked()){
                     mFilmsListe.get(position).setSelected(true);
-                    IvProduct.getChildAt(position).setBackgroundColor(Color.GRAY);
+                    mListView.getChildAt(position).setBackgroundColor(Color.GRAY);
                 }
                 else
                 {
                     mFilmsListe.get(position).setSelected(false);
-                    IvProduct.getChildAt(position).setBackgroundColor(Color.TRANSPARENT);
+                    mListView.getChildAt(position).setBackgroundColor(Color.TRANSPARENT);
                 }
             }
         });
@@ -120,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                         final int year = Integer.parseInt(et2.getText().toString());
                         String gender = sp.getSelectedItem().toString();
 
-                        mFilmsListe.add(new Films(name, year, gender, serialIcon, i[0],false));
+                        mFilmsListe.add(new Films(name, year, gender, null, i[0],false));
                         adapter.notifyDataSetChanged();
                         i[0]++;
                         Toast.makeText(MainActivity.this, "Add element", Toast.LENGTH_LONG).show();
@@ -162,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                             "No items to delete.",
                             Toast.LENGTH_LONG).show();
                 }
-                int itemCount = IvProduct.getCount();
+                int itemCount = mListView.getCount();
                 for(int i=itemCount - 1 ; i>=0; i--){
                     Films aux = (Films) adapter.getItem(i);
                     if(aux.isSelected()){
@@ -170,6 +171,36 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 adapter.notifyDataSetChanged();
+            }
+        });
+        // asyncs Button
+        final Button asyncs = (Button) findViewById(R.id.b_asyncs);
+        asyncs.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                for(Films movie : mFilmsListe){
+                    ChangeCoverAsyncTaskS c = new ChangeCoverAsyncTaskS(adapter,movie);
+                    c.execute(url);
+                }
+            }
+        });
+        // save Button
+        final Button save = (Button) findViewById(R.id.b_save);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        // save Load
+        final Button load = (Button) findViewById(R.id.b_load);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }
@@ -204,5 +235,12 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
         }
+    }
+    private List<Films> genererMovies(){
+        mFilmsListe = new ArrayList<Films>();
+        for (int i=1; i<10; i++){
+            mFilmsListe.add(new Films("M2", 2019, "MIAGE", null , i,false));
+        }
+        return mFilmsListe;
     }
 }
