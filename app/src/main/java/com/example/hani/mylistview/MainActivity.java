@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -183,6 +184,19 @@ public class MainActivity extends AppCompatActivity {
                 for(Films movie : mFilmsListe){
                     ChangeCoverAsyncTaskS c = new ChangeCoverAsyncTaskS(adapter,movie);
                     c.execute(url);
+                }
+            }
+        });
+        // asyncp Button
+        final Button asyncp = (Button) findViewById(R.id.b_asyncp);
+        asyncp.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                for(Films movie : mFilmsListe){
+                    ChangeCoverAsyncTaskS c = new ChangeCoverAsyncTaskS(adapter,movie);
+                    c.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,url);
                 }
             }
         });
